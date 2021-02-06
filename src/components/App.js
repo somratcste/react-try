@@ -5,9 +5,8 @@ function App() {
   return (
     <div className="App">
         <h1>Welcome to React Application</h1>
-        <First />
-        <First />
-        <First />
+        <First name='nazmul' />
+        <First name='hossain' />
     </div>
   );
 }

@@ -4,8 +4,7 @@ class First extends Component {
     render() {
         return (
             <div>
-                <h1>I am a brand new component!</h1>
-                <p>This is a paragraph.</p>
+                <h1>Name : {this.props.name}</h1>
             </div>
         )
     }
