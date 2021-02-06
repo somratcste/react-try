@@ -1,62 +1,39 @@
 import React, { Component } from 'react'
 import './App.css';
-import Books from "./Books/Books";
+import axios from "axios";
 
 class App extends Component {
 
     state = {
-        books: [
-            {
-                name: 'JavaScript',
-                price: 20,
-                id: 1
-            }, {
-                name: 'React',
-                price: 10,
-                id: 2
-            }, {
-                name: 'Redux',
-                price: 20,
-                id: 3
-            }, {
-                name: 'Java',
-                price: 20,
-                id: 4
-            }
-        ]
+        posts: []
     }
 
-    deleteHandler = (id) => {
-        let newBooks = this.state.books.filter(book => book.id !== id)
-        this.setState({
-            books: newBooks
-        })
-    }
-
-    changeHandler = (id, name) => {
-        let newBooks = this.state.books.map(book => {
-            if (id === book.id) {
-                return {
-                    ...book,
-                    name
-                }
-            }
-            return book
-        })
-        this.setState({
-            books: newBooks
-        })
+    componentDidMount() {
+        axios.get("https://jsonplaceholder.typicode.com/posts")
+            .then(response => {
+                this.setState({
+                    posts: response.data
+                })
+            })
+            .catch(error => console.log(error))
     }
 
     render() {
-        return (
-            <div className="container App">
-                <Books
-                    changeHandler={this.changeHandler.bind(this)}
-                    deleteHandler={this.deleteHandler.bind(this)}
-                    books={this.state.books} />
-            </div>
-        );
+        let {posts} = this.state
+        if (posts.length === 0) {
+            return <h1 style={{ textAlign: "center" }}>Loading... </h1>
+        } else {
+            return (
+                <div className="container">
+                    <ul className="list-group">
+                        {posts.map(post => {
+                            return <li className="list-group-item" key={post.id}>{post.title}</li>
+                        })}
+                    </ul>
+                </div>
+            )
+
+        }
     }
 }
 
